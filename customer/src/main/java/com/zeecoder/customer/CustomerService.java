@@ -1,9 +1,15 @@
 package com.zeecoder.customer;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 @Service
-public record CustomerService(CustomerRepository repository) {
+@AllArgsConstructor
+public class CustomerService {
+
+    private final CustomerRepository repository;
+    private final RestTemplate restTemplate;
     public void registerCustomer(CustomerRegistrationRequest request) {
         Customer customer = Customer.builder()
                 .firstName(request.firstName())
@@ -13,6 +19,18 @@ public record CustomerService(CustomerRepository repository) {
 
         //todo: check if email valid
         //todo check if email not taken
-        repository.save(customer);
+        repository.save(customer); //check if id will bw null
+
+        //todo: check if fraudster
+        FraudCheckResponse response = restTemplate.getForObject(
+                "http://localhost:8081/api/v1/fraud-check/{customerId}",
+                FraudCheckResponse.class,
+                customer.getId());
+
+
+        if (response.isFraudster()){
+            throw new IllegalStateException("fraudster");
+        }
+        //todo: send notification
     }
 }
