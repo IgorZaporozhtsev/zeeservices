@@ -1,5 +1,7 @@
 package com.zeecoder.customer;
 
+import com.zeecoder.clients.fraud.FraudCheckResponse;
+import com.zeecoder.clients.fraud.FraudClient;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -10,6 +12,7 @@ public class CustomerService {
 
     private final CustomerRepository repository;
     private final RestTemplate restTemplate;
+    private final FraudClient client;
     public void registerCustomer(CustomerRegistrationRequest request) {
         Customer customer = Customer.builder()
                 .firstName(request.firstName())
@@ -22,10 +25,17 @@ public class CustomerService {
         repository.save(customer); //check if id will bw null
 
         //todo: check if fraudster
+
+        /*
+
         FraudCheckResponse response = restTemplate.getForObject(
                 "http://FRAUD/api/v1/fraud-check/{customerId}",
                 FraudCheckResponse.class,
                 customer.getId());
+        */
+
+        // Use OpenFeign instead. See com.zeecoder.clients.fraud.FraudClient
+        FraudCheckResponse response = client.isFraudster(customer.getId());
 
 
         if (response.isFraudster()){
