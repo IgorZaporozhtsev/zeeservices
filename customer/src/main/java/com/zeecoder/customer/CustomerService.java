@@ -25,17 +25,6 @@ public class CustomerService {
         //todo check if email not taken
         repository.save(customer); //check if id will bw null
 
-        //todo: check if fraudster
-
-        /*
-
-        FraudCheckResponse response = restTemplate.getForObject(
-                "http://FRAUD/api/v1/fraud-check/{customerId}",
-                FraudCheckResponse.class,
-                customer.getId());
-        */
-
-        // Use OpenFeign instead. See com.zeecoder.clients.fraud.FraudClient
         FraudCheckResponse response = fraudClient.isFraudster(customer.getId());
 
         //todo: make async. i.e add to queue
