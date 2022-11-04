@@ -1,0 +1,24 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: acknowledgment
+  datasource:
+    password: password
+    url: jdbc:postgresql://localhost:5432/acknowledgment
+    username: zeecoder
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+    show-sql: true
+
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka

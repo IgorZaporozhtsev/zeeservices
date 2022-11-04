@@ -15,6 +15,7 @@
         <module name="eureka-server" />
         <module name="fraud" />
         <module name="customer" />
+        <module name="acknowledgment" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
