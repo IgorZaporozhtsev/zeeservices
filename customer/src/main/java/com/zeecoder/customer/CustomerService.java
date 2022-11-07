@@ -1,15 +1,19 @@
 package com.zeecoder.customer;
 
+import com.zeecoder.clients.fraud.FraudCheckResponse;
+import com.zeecoder.clients.fraud.FraudClient;
+import com.zeecoder.clients.notification.NotificationClient;
+import com.zeecoder.clients.notification.NotificationRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 @AllArgsConstructor
 public class CustomerService {
 
     private final CustomerRepository repository;
-    private final RestTemplate restTemplate;
+    private final FraudClient fraudClient;
+    private final NotificationClient notificationClient;
     public void registerCustomer(CustomerRegistrationRequest request) {
         Customer customer = Customer.builder()
                 .firstName(request.firstName())
@@ -21,16 +25,21 @@ public class CustomerService {
         //todo check if email not taken
         repository.save(customer); //check if id will bw null
 
-        //todo: check if fraudster
-        FraudCheckResponse response = restTemplate.getForObject(
-                "http://localhost:8081/api/v1/fraud-check/{customerId}",
-                FraudCheckResponse.class,
-                customer.getId());
+        FraudCheckResponse response = fraudClient.isFraudster(customer.getId());
 
+        //todo: make async. i.e add to queue
+
+        notificationClient.sendNotification(
+                new NotificationRequest(
+                    customer.getId(),
+                    customer.getEmail(),
+                    String.format("Hi %s, welcome to zeeservice", customer.getFirstName())
+                )
+        );
 
         if (response.isFraudster()){
             throw new IllegalStateException("fraudster");
         }
-        //todo: send notification
+
     }
 }

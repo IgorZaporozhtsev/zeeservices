@@ -1,4 +1,4 @@
-package com.zeecoder.fraud;
+package com.zeecoder.gateway;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -6,9 +6,9 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 
 @SpringBootApplication
 @EnableEurekaClient
-public class FraudApplication {
+public class ApiGateWayApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(FraudApplication.class, args);
+        SpringApplication.run(ApiGateWayApplication.class, args);
     }
 }

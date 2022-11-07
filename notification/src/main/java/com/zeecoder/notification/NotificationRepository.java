@@ -1,8 +1,8 @@
-package com.zeecoder.fraud;
+package com.zeecoder.notification;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface FraudCheckHistoryRepository extends JpaRepository<FraudCheckHistory, Integer> {
+public interface NotificationRepository extends JpaRepository<Notification, Integer> {
 }

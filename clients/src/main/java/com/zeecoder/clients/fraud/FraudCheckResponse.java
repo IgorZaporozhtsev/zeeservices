@@ -1,4 +1,4 @@
-package com.zeecoder.fraud;
+package com.zeecoder.clients.fraud;
 
 public record FraudCheckResponse(Boolean isFraudster) {
 }
