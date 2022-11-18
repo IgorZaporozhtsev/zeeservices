@@ -1,8 +1,8 @@
 package com.zeecoder.customer;
 
+import com.zeecoder.amqp.RabbitMQMessageProducer;
 import com.zeecoder.clients.fraud.FraudCheckResponse;
 import com.zeecoder.clients.fraud.FraudClient;
-import com.zeecoder.clients.notification.NotificationClient;
 import com.zeecoder.clients.notification.NotificationRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,9 @@ public class CustomerService {
 
     private final CustomerRepository repository;
     private final FraudClient fraudClient;
-    private final NotificationClient notificationClient;
+
+    private final RabbitMQMessageProducer producer;
+
     public void registerCustomer(CustomerRegistrationRequest request) {
         Customer customer = Customer.builder()
                 .firstName(request.firstName())
@@ -27,14 +29,16 @@ public class CustomerService {
 
         FraudCheckResponse response = fraudClient.isFraudster(customer.getId());
 
-        //todo: make async. i.e add to queue
+        NotificationRequest notificationRequest = new NotificationRequest(
+                 customer.getId(),
+                customer.getEmail(),
+                String.format("Hi %s, welcome to zeeservice", customer.getFirstName())
+        );
 
-        notificationClient.sendNotification(
-                new NotificationRequest(
-                    customer.getId(),
-                    customer.getEmail(),
-                    String.format("Hi %s, welcome to zeeservice", customer.getFirstName())
-                )
+        producer.publish(
+                notificationRequest,
+                "internal.exchange",
+                "internal.notification.routing-key"
         );
 
         if (response.isFraudster()){
