@@ -29,6 +29,10 @@ public class CustomerService {
 
         FraudCheckResponse response = fraudClient.isFraudster(customer.getId());
 
+        if (response.isFraudster()){
+            throw new IllegalStateException("fraudster");
+        }
+
         NotificationRequest notificationRequest = new NotificationRequest(
                  customer.getId(),
                 customer.getEmail(),
@@ -41,9 +45,7 @@ public class CustomerService {
                 "internal.notification.routing-key"
         );
 
-        if (response.isFraudster()){
-            throw new IllegalStateException("fraudster");
-        }
+
 
     }
 }
