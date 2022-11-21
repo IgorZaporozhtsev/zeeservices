@@ -7,13 +7,17 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-
+    <packaging>jar</packaging>
     <artifactId>customer</artifactId>
 
-    <properties>
-        <maven.compile.source>17</maven.compile.source>
-        <maven.compile.target>17</maven.compile.target>
-    </properties>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 
     <dependencies>
         <dependency>
@@ -55,6 +59,7 @@
             <groupId>com.zeecoder</groupId>
             <artifactId>amqp</artifactId>
             <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
         </dependency>
     </dependencies>
 

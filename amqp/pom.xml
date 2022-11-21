@@ -6,16 +6,9 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
-    <artifactId>amqp</artifactId>
     <packaging>jar</packaging>
-
     <name>amqp</name>
-
-    <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-    </properties>
+    <artifactId>amqp</artifactId>
 
     <dependencies>
         <dependency>
