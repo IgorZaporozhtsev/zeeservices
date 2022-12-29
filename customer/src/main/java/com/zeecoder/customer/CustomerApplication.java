@@ -18,7 +18,7 @@ import org.springframework.context.annotation.PropertySources;
         basePackages = "com.zeecoder.clients"
 )
 @PropertySources({
-        @PropertySource("classpath:clients-${spring.profiles.active}.properties")
+        @PropertySource("classpath:clients-${spring.profiles.active}.yml")
 })
 public class CustomerApplication
 {
