@@ -3,7 +3,7 @@ spring:
     name: notification
   datasource:
     password: password
-    url: jdbc:postgresql://localhost:5432/notification
+    url: jdbc:postgresql://postgres:5432/notification
     username: zeecoder
   jpa:
     hibernate:
@@ -14,18 +14,11 @@ spring:
         format_sql: true
     show-sql: true
   zipkin:
-    base-url: http://localhost:9411
+    base-url: http://zipkin:9411
   rabbitmq:
-    addresses: localhost:5672
+    addresses: rabbitmq:5672
 server:
   port: 8082
-eureka:
-  client:
-    fetch-registry: true
-    register-with-eureka: true
-    service-url:
-      defaultZone: http://localhost:8761/eureka
-    enabled: false
 
 rabbitmq:
   exchanges:
