@@ -1,6 +1,4 @@
 spring:
-  application:
-    name: fraud
   datasource:
     password: password
     url: jdbc:postgresql://postgres:5432/fraud
@@ -15,6 +13,8 @@ spring:
     show-sql: true
   zipkin:
     base-url: http://zipkin:9411
+  application:
+    name: fraud
 server:
   port: 8081
 eureka:
